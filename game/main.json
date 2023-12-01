@@ -1,0 +1,27 @@
+{
+	"layer": 0,
+	"events": {
+		"creation": [
+			{
+				"type": "lua",
+				"function": "create_main"
+			}
+		],
+		"key_enter": [
+			{
+				"type": "lua",
+				"function": "next_month"
+			}
+		],
+		"quit": [
+			{
+				"type": "close"
+			}
+		],
+		"key_f1": [
+			{
+				"type": "reload"
+			}
+		]
+	}
+}
