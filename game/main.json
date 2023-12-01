@@ -13,6 +13,30 @@
 				"function": "next_month"
 			}
 		],
+		"key_1": [
+			{
+				"type": "lua",
+				"function": "one"
+			}
+		],
+		"key_2": [
+			{
+				"type": "lua",
+				"function": "two"
+			}
+		],
+		"key_3": [
+			{
+				"type": "lua",
+				"function": "three"
+			}
+		],
+		"key_4": [
+			{
+				"type": "lua",
+				"function": "four"
+			}
+		],
 		"quit": [
 			{
 				"type": "close"
