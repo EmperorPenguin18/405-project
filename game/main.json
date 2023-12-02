@@ -10,7 +10,7 @@
 		"key_enter": [
 			{
 				"type": "lua",
-				"function": "next_month"
+				"function": "next_week"
 			}
 		],
 		"key_1": [
