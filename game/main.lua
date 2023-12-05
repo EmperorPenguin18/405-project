@@ -7,20 +7,39 @@ costs_val = 100
 event_box = nil
 week_obj = nil
 week_val = 0
+equity_obj = nil
 equity_val = 100
 shares_val = 100
+share_price_obj = nil
 share_price_val = 1
 valuation_obj = nil
 valuation_val = 0
+market_share_obj = nil
 market_share_val = 0
+product_market_fit_obj = nil
 product_market_fit_val = 0
 product_price_val = 100
+sales_obj = nil
 sales_val = 0
+capacity_obj = nil
 capacity_val = 1
+happiness_obj = nil
 happiness_val = 100
+happiness_mod_obj = nil
 happiness_mod = 0
+debt_obj = nil
 debt_val = 0
 employees_val = 1
+hired0 = false
+hired1 = false
+hired2 = false
+hired3 = false
+hired4 = false
+hired5 = false
+hired6 = false
+hired7 = false
+hired8 = false
+hired9 = false
 
 -- forward declarations
 local new_event = nil
@@ -358,6 +377,293 @@ local function quality_down(e, instance, choice)
 	return 1
 end
 
+local function hire0(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 30
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 30
+			end
+		end
+		share_price_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired0 = true
+		events[30][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire1(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 31
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 31
+			end
+		end
+		market_share_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired1 = true
+		events[31][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire2(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 32
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 32
+			end
+		end
+		product_market_fit_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired2 = true
+		events[32][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire3(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 33
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 33
+			end
+		end
+		sales_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired3 = true
+		events[33][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire4(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 34
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 34
+			end
+		end
+		capacity_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired4 = true
+		events[34][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire5(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 35
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 35
+			end
+		end
+		happiness_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired5 = true
+		events[35][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire6(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 36
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 36
+			end
+		end
+		happiness_mod_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired6 = true
+		events[36][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire7(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 37
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 37
+			end
+		end
+		debt_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_val = capacity_val + 1
+		employees_val = employees_val + 1
+		hired7 = true
+		events[37][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire8(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 38
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 38
+			end
+		end
+		capacity_val = capacity_val + 2
+		employees_val = employees_val + 1
+		hired8 = true
+		events[38][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
+local function hire9(e, instance, choice)
+	if choice == 1 or choice == 2 or choice == 3 then
+		if choice == 1 then
+			costs_val = costs_val + 1500
+		elseif choice == 2 then
+			if equity_val >= 1 then
+				costs_val = costs_val + 750
+				equity_val = equity_val - 1
+			else 
+				return 39
+			end
+		elseif choice == 3 then
+			if equity_val >= 2 then
+				equity_val = equity_val - 2
+			else 
+				return 39
+			end
+		end
+		employees_val = employees_val + 1
+		hired9 = true
+		events[39][2] = 0
+	elseif choice == 4 then
+		-- Nothing
+	end
+	return 1
+end
+
 -- # of choices, weight, function, any # of lines of text
 events = {
 	{0, 0, nil}, -- 1: no event
@@ -389,6 +695,16 @@ events = {
 	{2, 0, customer_feedback, "Now that you've done some initial market research, it might be beneficial to get some feedback from your customer base. You could survey them about what made them buy your product, how do they use it, and how could it be improved. It would cost some money to run the survey, but should give you an idea on how to improve your product.", "", "1. Feedback is useful. (-$100 000)", "2. I know what I'm doing"}, -- 27: customer feedback
 	{2, 0, quality_up, "After some research and development, it's been determined that using a different manufacturing process will lead to a better widget. However, this new process also costs more. Do you want to switch over?", "", "1. Of course!", "2. No way"}, -- 28: quality_up
 	{2, 0, quality_down, "To reduce the rising cost of manufacturing widgets, you could source your materials from a lower quality supplier. However, your customers may not appreciate the change. Do you want to switch over?", "", "1. Of course!", "2. No way"}, -- 29: quality_down
+	{4, 0, hire0, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Wojciech Mayo", "Role: Lawyer", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 30: hire 0
+	{4, 0, hire1, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Ronald Norman", "Role: Industry Specialist", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 31: hire 1
+	{4, 0, hire2, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Azaan Higgins", "Role: CTO", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 32: hire 2
+	{4, 0, hire3, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Chanel Wang", "Role: Head of Sales", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 33: hire 3
+	{4, 0, hire4, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Yash Mason", "Role: Production Manager", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 34: hire 4
+	{4, 0, hire5, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Mary Summers", "Role: Head of HR", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 35: hire 5
+	{4, 0, hire6, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Taylor Willis", "Role: Project Manager", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 36: hire 6
+	{4, 0, hire7, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Olly Fuentes", "Role: CFO", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 37: hire 7
+	{4, 0, hire8, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Margaret Harmon", "Role: CEO", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 38: hire 8
+	{4, 0, hire9, "After a few rounds of interviews, you have found someone who you think might be a good fit for the company.", "Name: Wight Schute", "Role: Assistant to the Manager", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 39: hire 9
 }
 event_num = -1
 
@@ -399,12 +715,43 @@ local function update(e)
 	action(e, income_obj, '"type": "text", "string": "Income: $'..income_val..'"')
 	action(e, costs_obj, '"type": "text", "string": "Costs: $'..costs_val..'"')
 	action(e, week_obj, '"type": "text", "string": "Week: '..week_val..'"')
+	action(e, equity_obj, '"type": "text", "string": "Equity: '..equity_val..'%"')
 	for i = 1, #lines, 1
 	do
 		action(e, lines[i], '"type": "text", "string": "'..events[event_num][i+3]..'"')
 	end
 	if valuation_obj ~= nil then
 		action(e, valuation_obj, '"type": "text", "string": "Valuation: $'..valuation_val..'"')
+	end
+	if share_price_obj ~= nil then
+		action(e, share_price_obj, '"type": "text", "string": "Share price: $'..share_price_val..'"')
+	end
+	if market_share_obj ~= nil then
+		action(e, market_share_obj, '"type": "text", "string": "Market share: '..market_share_val..'%"')
+	end
+	if product_market_fit_obj ~= nil then
+		action(e, product_market_fit_obj, '"type": "text", "string": "Quality: '..product_market_fit_val..'%"')
+	end
+	if sales_obj ~= nil then
+		action(e, sales_obj, '"type": "text", "string": "Sales: '..sales_val..'"')
+	end
+	if capacity_obj ~= nil then
+		action(e, capacity_obj, '"type": "text", "string": "Capacity: '..capacity_val..'"')
+	end
+	if happiness_obj ~= nil then
+		action(e, happiness_obj, '"type": "text", "string": "Happiness: '..happiness_val..'%"')
+	end
+	if happiness_mod_obj ~= nil then
+		local symbol = ""
+		if happiness_mod_val > 0 then
+			symbol = "+"
+		elseif happiness_mod_val < 0 then
+			symbol = "-"
+		end
+		action(e, happiness_mod_obj, '"type": "text", "string": "Happiness Mod: '..symbol..happiness_mod_val..'"')
+	end
+	if debt_obj ~= nil then
+		action(e, debt_obj, '"type": "text", "string": "Debt: $'..debt_val..'"')
 	end
 end
 
@@ -462,6 +809,7 @@ function create_main(e, instance)
 	local enter_next = spawn(e, instance, "text.json", 375, 720, false)
 	action(e, enter_next, '"type": "text", "string": "Press Enter to go to next week"')
 	week_obj = spawn(e, instance, "text.json", 20, 720, false)
+	equity_obj = spawn(e, instance, "text", 300, 50, false)
 	next_week(e, instance)
 end
 
@@ -482,9 +830,11 @@ function next_week(e, instance)
 	events[11][2] = sales_val
 	if valuation_val > 10000000 then
 		events[16][2] = events[16][2] + 1
+		events[7][2] = events[7][2] - 1
 	end
 	if market_share_val > 66 then
 		events[16][2] = events[16][2] + 1
+		events[7][2] = events[7][2] - 1
 	end
 	if market_share_val > 50 and employees_val > 1 and events[21][2] == 0 then
 		events[21][2] = 25 -- disruptive innovation
@@ -494,14 +844,26 @@ function next_week(e, instance)
 	else
 		events[22][2] = 0
 	end
-	if employees_val > 1 then
+	if employees_val > 1 then -- culture
 		events[23][2] = 5
 		events[24][2] = 5
 		events[25][2] = 5
 		events[26][2] = 5
 	end
-	if sales_val > 1 then
+	if sales_val > 1 then -- feedback
 		events[27][2] = (25 - events[9][2]) / 2.5
+	end
+	if sales_val >= capacity_val / 2 then -- hiring
+		if hired0 == false then events[30][2] = 1 end
+		if hired1 == false then events[31][2] = 1 end
+		if hired2 == false then events[32][2] = 1 end
+		if hired3 == false then events[33][2] = 1 end
+		if hired4 == false then events[34][2] = 1 end
+		if hired5 == false then events[35][2] = 1 end
+		if hired6 == false then events[36][2] = 1 end
+		if hired7 == false then events[37][2] = 1 end
+		if hired8 == false then events[38][2] = 1 end
+		if hired9 == false then events[39][2] = 1 end
 	end
 
 	share_price_val = valuation_val / shares_val

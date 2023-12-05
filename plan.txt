@@ -56,7 +56,7 @@ early
 [v] widget become illegal due to scarcity (failure)
 mid:
 [v] more manufacturing (cost capital, greatly increase capacity)
-[ ] hiring (increase cost, increase capacity, unique ability)
+[v] hiring (increase cost, increase capacity, unique ability)
 [v] team building event (cost capital, immediately increase happiness)
 [v] increase benefits (increase costs, increase happiness modifier)
 [v] jelly of the month (gain capital, immediately decrease happiness)
@@ -69,9 +69,9 @@ late:
 [v] ipo
 
 polishing:
-- name product
-- music
-- font wrapping
-- exclamation point
-- background
-- time passage
+[ ] name product
+[ ] music
+[ ] font wrapping
+[ ] exclamation point
+[ ] background
+[ ] time passage
