@@ -47,3 +47,31 @@ potential choices:
 - early exit
 - international sales
 - give training
+
+stuff:
+early
+[v] bank loan (gain capital, increase debt and costs)
+[v] website (small capital cost, fit up)
+[v] marketing (med capital cost, mid fit up)
+[v] widget become illegal due to scarcity (failure)
+mid:
+[v] more manufacturing (cost capital, greatly increase capacity)
+[ ] hiring (increase cost, increase capacity, unique ability)
+[v] team building event (cost capital, immediately increase happiness)
+[v] increase benefits (increase costs, increase happiness modifier)
+[v] jelly of the month (gain capital, immediately decrease happiness)
+[v] reduce office space (decrease costs, decrease happiness modifier)
+[v] get feedback (cost capital, fit up)
+[v] improve product quality (cost up, fit up)
+[v] decrease product quality (cost down, fit down)
+late:
+[v] disruptive innovation (cost a buttload of capital + happiness + capacity, but if you say no then your sales plummet)
+[v] ipo
+
+polishing:
+- name product
+- music
+- font wrapping
+- exclamation point
+- background
+- time passage
