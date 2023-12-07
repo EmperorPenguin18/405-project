@@ -1,0 +1,186 @@
+{
+	"layer": 2,
+	"font": "Jellee-Bold.ttf",
+	"events": {
+		"key_q": [
+			{
+				"type": "lua",
+				"function": "input_q"
+			}
+		],
+		"key_w": [
+			{
+				"type": "lua",
+				"function": "input_w"
+			}
+		],
+		"key_e": [
+			{
+				"type": "lua",
+				"function": "input_e"
+			}
+		],
+		"key_r": [
+			{
+				"type": "lua",
+				"function": "input_r"
+			}
+		],
+		"key_t": [
+			{
+				"type": "lua",
+				"function": "input_t"
+			}
+		],
+		"key_y": [
+			{
+				"type": "lua",
+				"function": "input_y"
+			}
+		],
+		"key_u": [
+			{
+				"type": "lua",
+				"function": "input_u"
+			}
+		],
+		"key_i": [
+			{
+				"type": "lua",
+				"function": "input_i"
+			}
+		],
+		"key_o": [
+			{
+				"type": "lua",
+				"function": "input_o"
+			}
+		],
+		"key_p": [
+			{
+				"type": "lua",
+				"function": "input_p"
+			}
+		],
+		"key_a": [
+			{
+				"type": "lua",
+				"function": "input_a"
+			}
+		],
+		"key_s": [
+			{
+				"type": "lua",
+				"function": "input_s"
+			}
+		],
+		"key_d": [
+			{
+				"type": "lua",
+				"function": "input_d"
+			}
+		],
+		"key_f": [
+			{
+				"type": "lua",
+				"function": "input_f"
+			}
+		],
+		"key_g": [
+			{
+				"type": "lua",
+				"function": "input_g"
+			}
+		],
+		"key_h": [
+			{
+				"type": "lua",
+				"function": "input_h"
+			}
+		],
+		"key_j": [
+			{
+				"type": "lua",
+				"function": "input_j"
+			}
+		],
+		"key_k": [
+			{
+				"type": "lua",
+				"function": "input_k"
+			}
+		],
+		"key_l": [
+			{
+				"type": "lua",
+				"function": "input_l"
+			}
+		],
+		"key_z": [
+			{
+				"type": "lua",
+				"function": "input_z"
+			}
+		],
+		"key_x": [
+			{
+				"type": "lua",
+				"function": "input_x"
+			}
+		],
+		"key_c": [
+			{
+				"type": "lua",
+				"function": "input_c"
+			}
+		],
+		"key_v": [
+			{
+				"type": "lua",
+				"function": "input_v"
+			}
+		],
+		"key_b": [
+			{
+				"type": "lua",
+				"function": "input_b"
+			}
+		],
+		"key_n": [
+			{
+				"type": "lua",
+				"function": "input_n"
+			}
+		],
+		"key_m": [
+			{
+				"type": "lua",
+				"function": "input_m"
+			}
+		],
+		"key_backspace": [
+			{
+				"type": "lua",
+				"function": "input_back"
+			}
+		],
+		"key_space": [
+			{
+				"type": "lua",
+				"function": "input_space"
+			}
+		],
+		"key_shift": [
+			{
+				"type": "lua",
+				"function": "input_shift"
+			}
+		],
+		"keyr_shift": [
+			{
+				"type": "lua",
+				"function": "input_shift_release"
+			}
+		]
+	}
+}

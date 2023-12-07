@@ -40,6 +40,8 @@ hired6 = false
 hired7 = false
 hired8 = false
 hired9 = false
+input_obj = nil
+exclamation_obj = nil
 
 -- forward declarations
 local new_event = nil
@@ -61,7 +63,8 @@ local function tutorial0(e, instance, choice)
 	if choice == 1 then
 		return 4
 	elseif choice == 2 then
-		initial_state()
+		input_obj = spawn(e, instance, "input.json", 160, 250, false)
+		return 40
 	end
 	return 1
 end
@@ -75,8 +78,8 @@ local function tutorial2(e, instance, choice)
 end
 
 local function tutorial3(e, instance, choice)
-	initial_state()
-	return 1
+	input_obj = spawn(e, instance, "input.json", 160, 250, false)
+	return 40
 end
 
 local function failure(e, instance, choice)
@@ -395,7 +398,7 @@ local function hire0(e, instance, choice)
 				return 30
 			end
 		end
-		share_price_obj = spawn(e, instance, "text.json", 1, 1, false)
+		share_price_obj = spawn(e, instance, "text.json", 20, 700, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired0 = true
@@ -424,7 +427,7 @@ local function hire1(e, instance, choice)
 				return 31
 			end
 		end
-		market_share_obj = spawn(e, instance, "text.json", 1, 1, false)
+		market_share_obj = spawn(e, instance, "text.json", 700, 80, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired1 = true
@@ -453,7 +456,7 @@ local function hire2(e, instance, choice)
 				return 32
 			end
 		end
-		product_market_fit_obj = spawn(e, instance, "text.json", 1, 1, false)
+		product_market_fit_obj = spawn(e, instance, "text.json", 20, 80, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired2 = true
@@ -482,7 +485,7 @@ local function hire3(e, instance, choice)
 				return 33
 			end
 		end
-		sales_obj = spawn(e, instance, "text.json", 1, 1, false)
+		sales_obj = spawn(e, instance, "text.json", 700, 40, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired3 = true
@@ -511,7 +514,7 @@ local function hire4(e, instance, choice)
 				return 34
 			end
 		end
-		capacity_obj = spawn(e, instance, "text.json", 1, 1, false)
+		capacity_obj = spawn(e, instance, "text.json", 20, 40, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired4 = true
@@ -540,7 +543,7 @@ local function hire5(e, instance, choice)
 				return 35
 			end
 		end
-		happiness_obj = spawn(e, instance, "text.json", 1, 1, false)
+		happiness_obj = spawn(e, instance, "text.json", 700, 120, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired5 = true
@@ -569,7 +572,7 @@ local function hire6(e, instance, choice)
 				return 36
 			end
 		end
-		happiness_mod_obj = spawn(e, instance, "text.json", 1, 1, false)
+		happiness_mod_obj = spawn(e, instance, "text.json", 700, 150, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired6 = true
@@ -598,7 +601,7 @@ local function hire7(e, instance, choice)
 				return 37
 			end
 		end
-		debt_obj = spawn(e, instance, "text.json", 1, 1, false)
+		debt_obj = spawn(e, instance, "text.json", 20, 120, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired7 = true
@@ -664,6 +667,14 @@ local function hire9(e, instance, choice)
 	return 1
 end
 
+local function input_name(e, instance, choice)
+	if string.len(product_name) < 1 then return 40 end
+	action(e, input_obj, '"type": "move", "x": 200, "y": 680, "relative": false')
+	action(e, input_obj, '"type": "text", "string": "Name: '..product_name..'"')
+	initial_state()
+	return 1
+end
+
 -- # of choices, weight, function, any # of lines of text
 events = {
 	{0, 0, nil}, -- 1: no event
@@ -705,6 +716,7 @@ events = {
 	{4, 0, hire7, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Olly Fuentes", "Role: CFO", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 37: hire 7
 	{4, 0, hire8, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Margaret Harmon", "Role: CEO", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 38: hire 8
 	{4, 0, hire9, "After a few rounds of interviews, you have found someone who you think might be a good fit for the company.", "Name: Wight Schute", "Role: Assistant to the Manager", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 39: hire 9
+	{1, 0, input_name, "Name your company:", "", "", "", "1. Done"}, -- 40: input name
 }
 event_num = -1
 
@@ -756,6 +768,10 @@ local function update(e)
 end
 
 local function close_event(e)
+	if exclamation_obj ~= nil then
+		action(e, exclamation_obj, '"type": "destroy"')
+		exclamation_obj = nil
+	end
 	if event_box ~= nil then
 		action(e, event_box, '"type": "destroy"')
 		event_box = nil
@@ -795,6 +811,7 @@ new_event = function(e, instance, num)
 	end
 	if #lines > 0 then
 		event_box = spawn(e, instance, "box.json", 134, 134, false)
+		exclamation_obj = spawn(e, instance, "exclamation.json", 358, 152, false)
 	end
 	update(e)
 end
@@ -802,14 +819,14 @@ end
 function create_main(e, instance)
 	math.randomseed(os.time())
 	action(e, instance, '"type": "window", "w": 768, "h": 768')
-	--action(e, instance, '"type": "music", "file": "music.ogg"')
+	action(e, instance, '"type": "music", "file": "music.ogg"')
 	capital_obj = spawn(e, instance, "text.json", 300, 20, false)
 	income_obj = spawn(e, instance, "text.json", 590, 20, false)
 	costs_obj = spawn(e, instance, "text.json", 20, 20, false)
 	local enter_next = spawn(e, instance, "text.json", 375, 720, false)
 	action(e, enter_next, '"type": "text", "string": "Press Enter to go to next week"')
 	week_obj = spawn(e, instance, "text.json", 20, 720, false)
-	equity_obj = spawn(e, instance, "text", 300, 50, false)
+	equity_obj = spawn(e, instance, "text.json", 300, 50, false)
 	next_week(e, instance)
 end
 
