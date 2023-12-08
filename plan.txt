@@ -77,8 +77,16 @@ polishing:
 [v] time passage
 
 playtest notes:
-- text position
-- equity explanation
-- increase chance of nothing
-- quoted text
-- reduce chance of things even when saying no
+[v] text position
+	- line up happiness with income
+	- sales line up with equity and income
+	- valuation lined up with capital, under equity
+	- move center and right columns a little to the left
+[v] equity explanation
+[v] increase chance of nothing
+[v] quoted text
+[v] reduce chance of things even when saying no
+[v] end of line bug
+[v] 779 nil
+[v] sum is a fraction
+[v] reaching max instances

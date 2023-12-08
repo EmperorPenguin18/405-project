@@ -49,14 +49,14 @@ local new_event = nil
 
 local function initial_state()
 	events[2][2] = 0 -- tutorial
-	events[1][2] = 15 -- nothing
-	events[9][2] = 25 -- research
+	events[1][2] = 55 -- nothing
+	events[9][2] = 15 -- research
 	events[12][2] = 100 -- parents money
-	events[13][2] = 5 -- angel money
-	events[14][2] = 5 -- vc money
-	events[17][2] = 30 -- bank money
-	events[18][2] = 10 -- website
-	events[19][2] = 10 -- marketing
+	events[13][2] = 3 -- angel money
+	events[14][2] = 2 -- vc money
+	events[17][2] = 15 -- bank money
+	events[18][2] = 5 -- website
+	events[19][2] = 5 -- marketing
 	events[20][2] = 1 -- disaster
 end
 
@@ -94,7 +94,7 @@ end
 
 local function acq_offer(e, instance, choice)
 	if choice == 1 then
-		local payout_obj = spawn(e, instance, "text.json", 300, 680, false)
+		local payout_obj = spawn(e, instance, "text.json", 270, 680, false)
 		local payout_val = (equity_val/100) * shares_val * share_price_val - debt_val
 		action(e, payout_obj, '"type": "text", "string": "Payout: $'..payout_val..'"')
 		return 8
@@ -109,7 +109,7 @@ local function research(e, instance, choice)
 		if capital_val >= 50000 then
 			capital_val = capital_val - 50000
 			product_market_fit_val = product_market_fit_val + 5
-			if events[9][2] > 0 then events[9][2] = events[9][2] - 5 end
+			if events[9][2] > 0 then events[9][2] = events[9][2] - 3 end
 			events[28][2] = events[28][2] + 1
 			events[29][2] = events[29][2] + 1
 		else
@@ -152,10 +152,10 @@ local function parents_money(e, instance, choice)
 	if choice == 1 then
 		capital_val = capital_val + 5000
 		debt_val = debt_val + 5000
-		events[12][2] = 0
 	elseif choice == 2 then
 		-- Nothing
 	end
+	events[12][2] = 0
 	return 1
 end
 
@@ -164,17 +164,14 @@ local function angel_money(e, instance, choice)
 		if equity_val >= 5 then
 			capital_val = capital_val + 500000
 			equity_val = equity_val - 5
-			if events[13][2] > 0 then
-				events[13][2] = events[13][2] - 1
-			end
-			if events[14][2] > 0 then
-				events[14][2] = events[14][2] - 1
-			end
 		else
 			return 13
 		end
 	elseif choice == 2 then
 		-- Nothing
+	end
+	if events[13][2] > 0 then
+		events[13][2] = events[13][2] - 1
 	end
 	return 1
 end
@@ -204,18 +201,14 @@ local function vc_money(e, instance, choice)
 			end
 		end
 
-		if events[13][2] > 0 then
-			events[13][2] = events[13][2] - 1
-		end
-		if events[14][2] > 0 then
-			events[14][2] = events[14][2] - 1
-		end
-
 		if valuation_obj == nil then
-			valuation_obj = spawn(e, instance, "text.json", 50, 104, false)
+			valuation_obj = spawn(e, instance, "text.json", 270, 80, false)
 		end
 	elseif choice == 4 then
 		-- Nothing
+	end
+	if events[14][2] > 0 then
+		events[14][2] = events[14][2] - 1
 	end
 	return 1
 end
@@ -225,11 +218,11 @@ local function bank_money(e, instance, choice)
 		capital_val = capital_val + 250000
 		debt_val = debt_val + 250000
 		costs_val = costs_val + 240
-		if events[17][2] > 0 then
-			events[17][2] = events[17][2] - 10
-		end
 	elseif choice == 2 then
 		-- Nothing
+	end
+	if events[17][2] > 0 then
+		events[17][2] = events[17][2] - 5
 	end
 	return 1
 end
@@ -428,7 +421,7 @@ local function hire1(e, instance, choice)
 				return 31
 			end
 		end
-		market_share_obj = spawn(e, instance, "text.json", 700, 80, false)
+		market_share_obj = spawn(e, instance, "text.json", 560, 80, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired1 = true
@@ -486,7 +479,7 @@ local function hire3(e, instance, choice)
 				return 33
 			end
 		end
-		sales_obj = spawn(e, instance, "text.json", 700, 40, false)
+		sales_obj = spawn(e, instance, "text.json", 560, 50, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired3 = true
@@ -515,7 +508,7 @@ local function hire4(e, instance, choice)
 				return 34
 			end
 		end
-		capacity_obj = spawn(e, instance, "text.json", 20, 40, false)
+		capacity_obj = spawn(e, instance, "text.json", 20, 50, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired4 = true
@@ -544,7 +537,7 @@ local function hire5(e, instance, choice)
 				return 35
 			end
 		end
-		happiness_obj = spawn(e, instance, "text.json", 700, 120, false)
+		happiness_obj = spawn(e, instance, "text.json", 560, 110, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired5 = true
@@ -573,7 +566,7 @@ local function hire6(e, instance, choice)
 				return 36
 			end
 		end
-		happiness_mod_obj = spawn(e, instance, "text.json", 700, 150, false)
+		happiness_mod_obj = spawn(e, instance, "text.json", 560, 140, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired6 = true
@@ -602,7 +595,7 @@ local function hire7(e, instance, choice)
 				return 37
 			end
 		end
-		debt_obj = spawn(e, instance, "text.json", 20, 120, false)
+		debt_obj = spawn(e, instance, "text.json", 20, 110, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired7 = true
@@ -683,13 +676,13 @@ events = {
 	{2, 0, failure, "You have run out of funding and your business venture has unfortunately failed. Don't worry, most entrepreneurs fail before they succeed. If you learn from your mistakes, maybe you will be successful next time! Would you like to try again?", "", "1. Yes! I can do it!", "2. No, maybe some other time"}, -- failure
 	{1, 0, tutorial1, "The time has finally arrived! After quitting your well-paying, stable job and moving to sunny Widget Valley, now you will be able to achieve your dream of starting a successful business. You already have your idea, a widget that will revolutionize the entire industry. But after that well... you're not really sure. Will you become like the great entrepreneurs who came before you? Will your skill and talent be enough for this challenging path? Let's find out!", "", "1. Continue"},
 	{1, 0, tutorial2, "If you look to the top, you'll see three numbers. As you can see from the labels, these are your current capital, income and operating costs. You have some savings from your last job, so you start with $5000. Income is zero because you aren't selling anything yet. Costs is $100 because even founders have to eat. Each week, your income will be added to your capital, and costs subtracted. Other statistics about the business will be revealed later.", "", "1. Continue"},
-	{1, 0, tutorial3, "In real life lots of people just want a lifestyle business, but not you. Your goal is to exit the business either from acquisition or I.P.O. Good luck!", "", "1. Let's go!"},
-	{2, 0, acq_offer, 'You are getting a phone call. "Hello, we represent Alphanumeric Inc. and would like to make an acquisition offer. We see how successful you have been in the widget market, and we think you are a great fit for us. We\'ll buy all your equity and run the business from now on. How does that sound?"', "", "1. Retirement baby!", "2. No thanks"}, -- acquisition
+	{1, 0, tutorial3, "In real life lots of people just want a lifestyle business, but not you. Your goal is to exit the business either from acquisition or I.P.O. Your equity percentage is shown below capital, that will affect how much you exit with. Good luck!", "", "1. Let's go!"},
+	{2, 0, acq_offer, "You are getting a phone call.", "Hello, we represent Alphanumeric Inc. and would like to make an acquisition offer. We see how successful you have been in the widget market, and we think you are a great fit for us. We'll buy all your equity and run the business from now on. How does that sound?", "", "1. Retirement baby!", "2. No thanks"}, -- acquisition
 	{2, 0, failure, "Congratulations! You have successfully exited your venture. Now you can try to get an even bigger payout. Would you like to play again?", "", "1. Yes! The next one will be even better!", "2. No, I'd like to enjoy my retirement"}, -- victory
 	{2, 0, research, "A company that uses widgets has agreed to help you test drive your widget idea. This will help refine your product, but will cost you to create an M.V.P. Would you like to proceed?", "", "1. What a great opportunity! (-$50 000)", "2. Maybe next time"}, -- 9: research
 	{2, 0, new_customer, "A company that uses widgets has heard of your new product, and thinks it will improve their business. This will increase your income, but requires manufacturing capacity.", "", "1. We'll do great things together.", "2. Sorry, but not at this time"}, -- 10: new customer
 	{2, 0, valuation, "You have approached a business valuation firm to determine how much your company is worth. Knowing this is useful, but it will cost you a fee.", "", "1. Works for me. (-$20 000)", "2. I don't need it"}, -- 11: valuation
-	{2, 0, parents_money, "You are getting a phone call from your parents. \"Hi honey! We just wanted to call to say that we miss you. Hopefully your business is going well! And... umm... we thought you might want some help, so we've put together a little something for you. Don't worry about paying it back anytime soon. Should we just send it to your new address?\"", "", "1. Thanks family!", "2. Well... I was hoping to try and make it on my own"}, -- 12: parents money
+	{2, 0, parents_money, "You are getting a phone call from your parents.", "Hi honey! We just wanted to call to say that we miss you. Hopefully your business is going well! And... umm... we thought you might want some help, so we've put together a little something for you. Don't worry about paying it back anytime soon. Should we just send it to your new address?", "", "1. Thanks family!", "2. Well... I was hoping to try and make it on my own"}, -- 12: parents money
 	{2, 0, angel_money, "You have met with someone who has once in your shoes, starting their own business. Now this person is willing to invest in your idea, but wants some equity in return.", "", "1. Sounds like a great idea. (+$500 000 capital) (-5% equity)", "2. That doesn't work for me"}, -- 13: angel money
 	{4, 0, vc_money, "You have been having conversations with many different venture capital firms, and three have come back to you with term sheets. Which do you go with, if any?", "", "1. EliteVC (+$3 250 000 capital) (-30% equity)", "2. FundTech (+$2 000 000 capital) (-20% equity)", "3. CapitalEdge (+$750 000 capital) (-10% equity)", "4. None for me"}, -- 14: vc money
 	{2, 0, failure, "Your employees have become incredibly unhappy and your", "business venture has unfortunately", "failed. Don't worry, most entrepreneurs", "fail before they succeed. If you learn", "from your mistakes, maybe you will be", "successful next time!", "Would you like to try again?", "", "1. Yes! I can do it!", "2. No, maybe some other time"}, -- 15: employees unhappy
@@ -697,8 +690,8 @@ events = {
 	{2, 0, bank_money, "After meeting with some different banks, one has agreed to give you a loan as part of their startups assistance program. If you take it, you'll be paying them back for a while. Do you take the loan?", "", "1. Just what I needed. (+$250 000 capital) (5% interest per year)", "2. Too risky for me"}, -- 17: bank money
 	{2, 0, website, "You've done some research and think you could put together a professional website for yourself with a little help. This will get more attention on your product.", "", "1. How hard can it be? ($1 000)", "2. I'll just go door to door"}, -- 18: website
 	{2, 0, marketing, "You think it could be worth it to spend some money marketing your product. A social media campaign, advertisements to businesses, a podcast about widgets, whatever works. What do you think?", "", "1. They're going to learn how great my idea is. (-$30 000)", "2. The product speaks for itself"}, -- 19: marketing
-	{2, 0, failure, "You turn on today's news. \"Due to dwindling natural deposits of Widgium, the government has outlawed all mining of the substance. Further, they have urged all businesses in the widget industry to look to an alternative.\" Starting a business is inherently risky, and it seems you have gotten unlucky this time.", "Would you like to try again?", "", "1. Yes! I can do it!", "2. No, maybe some other time"}, -- 20: disaster
-	{2, 0, disruptive_innovation, "One day at work one of your employees approaches you. \"Hey, I heard about this cool new widget from my friend, he was saying it can do all this stuff that ours can't. Were you thinking of incorporating those ideas into our product?\" You think about this proposal, and realize that it would take up a lot of your manufacturing capacity, and your employees might not like the direction of the company. Do you invest in this new idea?", "", "1. Sure, sounds interesting. (-$1 000 000)", "2. No, our customers love our product as it is"}, -- 21: disruptive innovation
+	{2, 0, failure, "You turn on today's news.", "Due to dwindling natural deposits of Widgium, the government has outlawed all mining of the substance. Further, they have urged all businesses in the widget industry to look to an alternative.", "Starting a business is inherently risky, and it seems you have gotten unlucky this time.", "Would you like to try again?", "", "1. Yes! I can do it!", "2. No, maybe some other time"}, -- 20: disaster
+	{2, 0, disruptive_innovation, "One day at work one of your employees approaches you.", "Hey, I heard about this cool new widget from my friend, he was saying it can do all this stuff that ours can't. Were you thinking of incorporating those ideas into our product?", "You think about this proposal, and realize that it would take up a lot of your manufacturing capacity, and your employees might not like the direction of the company. Do you invest in this new idea?", "", "1. Sure, sounds interesting. (-$1 000 000)", "2. No, our customers love our product as it is"}, -- 21: disruptive innovation
 	{2, 0, manufacturing, "You're currently using all your manufacturing capacity to meet the demands of your customers. It might makes sense to plan ahead and expand your production capabilities now.", "", "1. Expanding sounds great! (-$1 000 000)", "2. Don't want to expand just yet"}, -- 22: manufacturing
 	{2, 0, team_building, "You get the idea to run a team-building event. A fun day of activities should hopefully improve the company morale.", "", "1. Good idea, me. (-$2 000)", "2. Bad idea!"}, -- 23: team building
 	{2, 0, benefits, "You get the idea to increase the compensation benefits for your employees. This should make them happy and healthy for each day of work, but will increase your costs.", "", "1. Good idea, me", "2. Bad idea!"}, -- 24: benefits
@@ -728,14 +721,15 @@ local function get_break(line, str)
 	local first = 1
 	local last = 1
 	repeat
+		first = str:find(" ", last)
+		if first == nil then first = -1 end
 		last = first + 1
 		local px = measure_text(line, str:sub(1, first))
 		if px > 460 then
 			return prev
 		end
 		prev = first
-		first = str:find(" ", last)
-	until first == nil
+	until str:sub(1, first):len() == str:len()
 	return str:len()
 end
 
@@ -783,9 +777,9 @@ local function update(e)
 	end
 	if happiness_mod_obj ~= nil then
 		local symbol = ""
-		if happiness_mod_val > 0 then
+		if happiness_mod > 0 then
 			symbol = "+"
-		elseif happiness_mod_val < 0 then
+		elseif happiness_mod < 0 then
 			symbol = "-"
 		end
 		action(e, happiness_mod_obj, '"type": "text", "string": "Happiness Mod: '..symbol..happiness_mod_val..'"')
@@ -796,14 +790,8 @@ local function update(e)
 end
 
 local function close_event(e)
-	if exclamation_obj ~= nil then
-		action(e, exclamation_obj, '"type": "destroy"')
-		exclamation_obj = nil
-	end
-	if event_box ~= nil then
-		action(e, event_box, '"type": "destroy"')
-		event_box = nil
-	end
+	action(e, exclamation_obj, '"type": "hide", "state": true')
+	action(e, event_box, '"type": "hide", "state": true')
 	for i = 1, #lines, 1
 	do
 		action(e, lines[i], '"type": "text", "string": ""')
@@ -832,8 +820,8 @@ new_event = function(e, instance, num)
 	close_event(e)
 	event_num = num
 	if event_num ~= 1 then
-		event_box = spawn(e, instance, "box.json", 134, 134, false)
-		exclamation_obj = spawn(e, instance, "exclamation.json", 358, 152, false)
+		action(e, event_box, '"type": "hide", "state": false')
+		action(e, exclamation_obj, '"type": "hide", "state": false')
 	end
 	update(e)
 end
@@ -842,18 +830,21 @@ function create_main(e, instance)
 	math.randomseed(os.time())
 	action(e, instance, '"type": "window", "w": 768, "h": 768')
 	action(e, instance, '"type": "music", "file": "music.ogg"')
-	capital_obj = spawn(e, instance, "text.json", 300, 20, false)
-	income_obj = spawn(e, instance, "text.json", 590, 20, false)
+	capital_obj = spawn(e, instance, "text.json", 270, 20, false)
+	income_obj = spawn(e, instance, "text.json", 560, 20, false)
 	costs_obj = spawn(e, instance, "text.json", 20, 20, false)
 	local enter_next = spawn(e, instance, "text.json", 375, 720, false)
 	action(e, enter_next, '"type": "text", "string": "Press Enter to go to next week"')
 	week_obj = spawn(e, instance, "text.json", 20, 720, false)
-	equity_obj = spawn(e, instance, "text.json", 300, 50, false)
+	equity_obj = spawn(e, instance, "text.json", 270, 50, false)
 	for i = 1, 15, 1
 	do
 		local line = spawn(e, instance, "text.json", 160, 164+(i*28), false)
 		table.insert(lines, line)
 	end
+	event_box = spawn(e, instance, "box.json", 134, 134, false)
+	exclamation_obj = spawn(e, instance, "exclamation.json", 358, 152, false)
+	clock_obj = spawn(e, instance, "clock.json", 256, 256, false)
 	timer_end(e, instance)
 end
 
@@ -862,7 +853,7 @@ function next_week(e, instance)
 	if event_num ~= 1 then return end --dont progress until choice made
 
 	if timer_on == false then
-		clock_obj = spawn(e, instance, "clock.json", 250, 250, false)
+		action(e, clock_obj, '"type": "hide", "state": false')
 
 		if valuation_val > 1000000 then
 			events[7][2] = events[7][2] + 1
@@ -878,11 +869,11 @@ function next_week(e, instance)
 		events[11][2] = sales_val
 		if valuation_val > 10000000 then
 			events[16][2] = events[16][2] + 1
-			events[7][2] = events[7][2] - 1
+			if events[7][2] > 0 then events[7][2] = events[7][2] - 1 end
 		end
 		if market_share_val > 66 then
 			events[16][2] = events[16][2] + 1
-			events[7][2] = events[7][2] - 1
+			if events[7][2] > 0 then events[7][2] = events[7][2] - 1 end
 		end
 		if market_share_val > 50 and employees_val > 1 and events[21][2] == 0 then
 			events[21][2] = 25 -- disruptive innovation
@@ -899,7 +890,7 @@ function next_week(e, instance)
 			events[26][2] = 5
 		end
 		if sales_val > 1 then -- feedback
-			events[27][2] = (25 - events[9][2]) / 2.5
+			events[27][2] = math.floor((25 - events[9][2]) / 2.5)
 		end
 		if sales_val >= capacity_val / 2 then -- hiring
 			if hired0 == false then events[30][2] = 1 end
@@ -927,10 +918,7 @@ end
 
 function timer_end(e, instance)
 	timer_on = false
-	if clock_obj ~= nil then
-		action(e, clock_obj, '"type": "destroy"')
-		clock_obj = nil
-	end
+	action(e, clock_obj, '"type": "hide", "state": true')
 
 	if capital_val <= 0 then -- failure
 		new_event(e, instance, 3)
