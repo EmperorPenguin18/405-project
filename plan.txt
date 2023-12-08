@@ -69,9 +69,16 @@ late:
 [v] ipo
 
 polishing:
-[ ] name product
-[ ] music
-[ ] font wrapping
-[ ] exclamation point
-[ ] background
-[ ] time passage
+[v] name product
+[v] music
+[v] font wrapping
+[v] exclamation point
+[v] background
+[v] time passage
+
+playtest notes:
+- text position
+- equity explanation
+- increase chance of nothing
+- quoted text
+- reduce chance of things even when saying no

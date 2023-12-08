@@ -1,12 +1,12 @@
 capital_obj = nil
-capital_val = 5100
+capital_val = 5000
 income_obj = nil
 income_val = 0
 costs_obj = nil
 costs_val = 100
 event_box = nil
 week_obj = nil
-week_val = 0
+week_val = 1
 equity_obj = nil
 equity_val = 100
 shares_val = 100
@@ -42,6 +42,7 @@ hired8 = false
 hired9 = false
 input_obj = nil
 exclamation_obj = nil
+clock_obj = nil
 
 -- forward declarations
 local new_event = nil
@@ -678,11 +679,11 @@ end
 -- # of choices, weight, function, any # of lines of text
 events = {
 	{0, 0, nil}, -- 1: no event
-	{2, 1, tutorial0, "Welcome to the COMM 405", "Entrepreneurship Simulator! Would you", "like to go through the tutorial?", "(Press 1 on your keyboard for Yes)", "", "1. Yes", "2. No"}, -- tutorial
-	{2, 0, failure, "You have run out of funding and your", "business venture has unfortunately", "failed. Don't worry, most entrepreneurs", "fail before they succeed. If you learn", "from your mistakes, maybe you will be", "successful next time!", "Would you like to try again?", "", "1. Yes! I can do it!", "2. No, maybe some other time"}, -- failure
-	{1, 0, tutorial1, "The time has finally arrived! After", "quitting your well-paying, stable job", "and moving to sunny Widget Valley, now", "you will be able to achieve your dream", "of starting a successful business. You", "already have your idea, a widget that", "will revolutionize the entire industry.", "But after that well... you're not really sure.", "Will you become like the great", "entrepreneurs who came before you?", "Will your skill and talent be enough for", "this challenging path? Let's find out!", "", "1. Continue"},
-	{1, 0, tutorial2, "If you look to the top, you'll see three", "numbers. As you can see from the labels,", "these are your current capital, income", "and operating costs. You have some", "savings from your last job, so you start", "with $5000. Income is zero because", "you aren't selling anything yet. Costs is", "$100 because even founders have to eat.", "Each week, your income will be added", "to your capital, and costs subtracted.", "Other statistics about the business will", "be revealed later.", "", "1. Continue"},
-	{1, 0, tutorial3, "In real life lots of people just want a", "lifestyle business, but not you. Your", "goal is to exit the business either from", "acquisition or I.P.O. Good luck!", "", "1. Let's go!"},
+	{2, 1, tutorial0, "Welcome to the COMM 405 Entrepreneurship Simulator! Would you like to go through the tutorial? (Press 1 on your keyboard for Yes)", "", "1. Yes", "2. No"}, -- tutorial
+	{2, 0, failure, "You have run out of funding and your business venture has unfortunately failed. Don't worry, most entrepreneurs fail before they succeed. If you learn from your mistakes, maybe you will be successful next time! Would you like to try again?", "", "1. Yes! I can do it!", "2. No, maybe some other time"}, -- failure
+	{1, 0, tutorial1, "The time has finally arrived! After quitting your well-paying, stable job and moving to sunny Widget Valley, now you will be able to achieve your dream of starting a successful business. You already have your idea, a widget that will revolutionize the entire industry. But after that well... you're not really sure. Will you become like the great entrepreneurs who came before you? Will your skill and talent be enough for this challenging path? Let's find out!", "", "1. Continue"},
+	{1, 0, tutorial2, "If you look to the top, you'll see three numbers. As you can see from the labels, these are your current capital, income and operating costs. You have some savings from your last job, so you start with $5000. Income is zero because you aren't selling anything yet. Costs is $100 because even founders have to eat. Each week, your income will be added to your capital, and costs subtracted. Other statistics about the business will be revealed later.", "", "1. Continue"},
+	{1, 0, tutorial3, "In real life lots of people just want a lifestyle business, but not you. Your goal is to exit the business either from acquisition or I.P.O. Good luck!", "", "1. Let's go!"},
 	{2, 0, acq_offer, 'You are getting a phone call. "Hello, we represent Alphanumeric Inc. and would like to make an acquisition offer. We see how successful you have been in the widget market, and we think you are a great fit for us. We\'ll buy all your equity and run the business from now on. How does that sound?"', "", "1. Retirement baby!", "2. No thanks"}, -- acquisition
 	{2, 0, failure, "Congratulations! You have successfully exited your venture. Now you can try to get an even bigger payout. Would you like to play again?", "", "1. Yes! The next one will be even better!", "2. No, I'd like to enjoy my retirement"}, -- victory
 	{2, 0, research, "A company that uses widgets has agreed to help you test drive your widget idea. This will help refine your product, but will cost you to create an M.V.P. Would you like to proceed?", "", "1. What a great opportunity! (-$50 000)", "2. Maybe next time"}, -- 9: research
@@ -718,9 +719,39 @@ events = {
 	{4, 0, hire9, "After a few rounds of interviews, you have found someone who you think might be a good fit for the company.", "Name: Wight Schute", "Role: Assistant to the Manager", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 39: hire 9
 	{1, 0, input_name, "Name your company:", "", "", "", "1. Done"}, -- 40: input name
 }
-event_num = -1
+event_num = 1
 
 lines = {}
+
+local function get_break(line, str)
+	local prev = 1
+	local first = 1
+	local last = 1
+	repeat
+		last = first + 1
+		local px = measure_text(line, str:sub(1, first))
+		if px > 460 then
+			return prev
+		end
+		prev = first
+		first = str:find(" ", last)
+	until first == nil
+	return str:len()
+end
+
+local function wrap_text(e)
+	local j = 1
+	for i = 4, #events[event_num], 1
+	do
+		local str = events[event_num][i]
+		repeat
+			local n = get_break(lines[j], str)
+			action(e, lines[j], '"type": "text", "string": "'..str:sub(1, n)..'"')
+			str = str:sub(n+1, -1)
+			j = j + 1
+		until str:len() == 0
+	end
+end
 
 local function update(e)
 	action(e, capital_obj, '"type": "text", "string": "Capital: $'..capital_val..'"')
@@ -728,10 +759,7 @@ local function update(e)
 	action(e, costs_obj, '"type": "text", "string": "Costs: $'..costs_val..'"')
 	action(e, week_obj, '"type": "text", "string": "Week: '..week_val..'"')
 	action(e, equity_obj, '"type": "text", "string": "Equity: '..equity_val..'%"')
-	for i = 1, #lines, 1
-	do
-		action(e, lines[i], '"type": "text", "string": "'..events[event_num][i+3]..'"')
-	end
+	wrap_text(e)
 	if valuation_obj ~= nil then
 		action(e, valuation_obj, '"type": "text", "string": "Valuation: $'..valuation_val..'"')
 	end
@@ -778,8 +806,7 @@ local function close_event(e)
 	end
 	for i = 1, #lines, 1
 	do
-		local line = table.remove(lines)
-		action(e, line, '"type": "destroy"')
+		action(e, lines[i], '"type": "text", "string": ""')
 	end
 end
 
@@ -804,12 +831,7 @@ end
 new_event = function(e, instance, num)
 	close_event(e)
 	event_num = num
-	for i = 4, #events[event_num], 1
-	do
-		local line = spawn(e, instance, "text.json", 160, 80+(i*28), false)
-		table.insert(lines, line)
-	end
-	if #lines > 0 then
+	if event_num ~= 1 then
 		event_box = spawn(e, instance, "box.json", 134, 134, false)
 		exclamation_obj = spawn(e, instance, "exclamation.json", 358, 152, false)
 	end
@@ -827,67 +849,88 @@ function create_main(e, instance)
 	action(e, enter_next, '"type": "text", "string": "Press Enter to go to next week"')
 	week_obj = spawn(e, instance, "text.json", 20, 720, false)
 	equity_obj = spawn(e, instance, "text.json", 300, 50, false)
-	next_week(e, instance)
+	for i = 1, 15, 1
+	do
+		local line = spawn(e, instance, "text.json", 160, 164+(i*28), false)
+		table.insert(lines, line)
+	end
+	timer_end(e, instance)
 end
 
+timer_on = false
 function next_week(e, instance)
-	if #lines > 0 then return end --dont progress until choice made
+	if event_num ~= 1 then return end --dont progress until choice made
 
-	if valuation_val > 1000000 then
-		events[7][2] = events[7][2] + 1
-	end
-	market_share_val = sales_val / (60 + sales_val)
-	if market_share_val > 33 then
-		events[7][2] = events[7][2] + 1
-	end
-	events[10][2] = product_market_fit_val
-	if sales_val > capacity_val then
-		happiness_val = happiness_val - 5
-	end
-	events[11][2] = sales_val
-	if valuation_val > 10000000 then
-		events[16][2] = events[16][2] + 1
-		events[7][2] = events[7][2] - 1
-	end
-	if market_share_val > 66 then
-		events[16][2] = events[16][2] + 1
-		events[7][2] = events[7][2] - 1
-	end
-	if market_share_val > 50 and employees_val > 1 and events[21][2] == 0 then
-		events[21][2] = 25 -- disruptive innovation
-	end
-	if sales_val >= capacity_val then -- manufacturing
-		events[22][2] = 50
-	else
-		events[22][2] = 0
-	end
-	if employees_val > 1 then -- culture
-		events[23][2] = 5
-		events[24][2] = 5
-		events[25][2] = 5
-		events[26][2] = 5
-	end
-	if sales_val > 1 then -- feedback
-		events[27][2] = (25 - events[9][2]) / 2.5
-	end
-	if sales_val >= capacity_val / 2 then -- hiring
-		if hired0 == false then events[30][2] = 1 end
-		if hired1 == false then events[31][2] = 1 end
-		if hired2 == false then events[32][2] = 1 end
-		if hired3 == false then events[33][2] = 1 end
-		if hired4 == false then events[34][2] = 1 end
-		if hired5 == false then events[35][2] = 1 end
-		if hired6 == false then events[36][2] = 1 end
-		if hired7 == false then events[37][2] = 1 end
-		if hired8 == false then events[38][2] = 1 end
-		if hired9 == false then events[39][2] = 1 end
-	end
+	if timer_on == false then
+		clock_obj = spawn(e, instance, "clock.json", 250, 250, false)
 
-	share_price_val = valuation_val / shares_val
-	happiness_val = happiness_val - employees_val + happiness_mod
-	income_val = product_price_val * sales_val
-	capital_val = capital_val + income_val - costs_val
-	week_val = week_val + 1
+		if valuation_val > 1000000 then
+			events[7][2] = events[7][2] + 1
+		end
+		market_share_val = sales_val / (60 + sales_val)
+		if market_share_val > 33 then
+			events[7][2] = events[7][2] + 1
+		end
+		events[10][2] = product_market_fit_val
+		if sales_val > capacity_val then
+			happiness_val = happiness_val - 5
+		end
+		events[11][2] = sales_val
+		if valuation_val > 10000000 then
+			events[16][2] = events[16][2] + 1
+			events[7][2] = events[7][2] - 1
+		end
+		if market_share_val > 66 then
+			events[16][2] = events[16][2] + 1
+			events[7][2] = events[7][2] - 1
+		end
+		if market_share_val > 50 and employees_val > 1 and events[21][2] == 0 then
+			events[21][2] = 25 -- disruptive innovation
+		end
+		if sales_val >= capacity_val then -- manufacturing
+			events[22][2] = 50
+		else
+			events[22][2] = 0
+		end
+		if employees_val > 1 then -- culture
+			events[23][2] = 5
+			events[24][2] = 5
+			events[25][2] = 5
+			events[26][2] = 5
+		end
+		if sales_val > 1 then -- feedback
+			events[27][2] = (25 - events[9][2]) / 2.5
+		end
+		if sales_val >= capacity_val / 2 then -- hiring
+			if hired0 == false then events[30][2] = 1 end
+			if hired1 == false then events[31][2] = 1 end
+			if hired2 == false then events[32][2] = 1 end
+			if hired3 == false then events[33][2] = 1 end
+			if hired4 == false then events[34][2] = 1 end
+			if hired5 == false then events[35][2] = 1 end
+			if hired6 == false then events[36][2] = 1 end
+			if hired7 == false then events[37][2] = 1 end
+			if hired8 == false then events[38][2] = 1 end
+			if hired9 == false then events[39][2] = 1 end
+		end
+
+		share_price_val = valuation_val / shares_val
+		happiness_val = happiness_val - employees_val + happiness_mod
+		income_val = product_price_val * sales_val
+		capital_val = capital_val + income_val - costs_val
+		week_val = week_val + 1
+
+		timer_on = true
+		action(e, instance, '"type": "timer", "num": 0, "time": 2.5')
+	end
+end
+
+function timer_end(e, instance)
+	timer_on = false
+	if clock_obj ~= nil then
+		action(e, clock_obj, '"type": "destroy"')
+		clock_obj = nil
+	end
 
 	if capital_val <= 0 then -- failure
 		new_event(e, instance, 3)
@@ -899,7 +942,7 @@ function next_week(e, instance)
 end
 
 local function make_choice(e, instance, num)
-	if num <= events[event_num][1] and #lines > 0 then
+	if num <= events[event_num][1] and event_num ~= 1 then
 		local n = events[event_num][3](e, instance, num)
 		if n == 0 then
 			print("Index 1 silly")

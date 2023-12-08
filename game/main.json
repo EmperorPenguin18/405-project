@@ -1,5 +1,8 @@
 {
 	"layer": 0,
+	"width": 768,
+	"height": 768,
+	"sprite": "background.png",
 	"events": {
 		"creation": [
 			{
@@ -11,6 +14,12 @@
 			{
 				"type": "lua",
 				"function": "next_week"
+			}
+		],
+		"timer_0": [
+			{
+				"type": "lua",
+				"function": "timer_end"
 			}
 		],
 		"key_1": [

@@ -1,0 +1,24 @@
+{
+	"layer": 2,
+	"width": 256,
+	"height": 256,
+	"sprite": "clock.png",
+	"events": {
+		"creation": [
+			{
+				"type": "animation",
+				"start": 0,
+				"end": 11,
+				"time": 0.2
+			}
+		],
+		"animation_complete": [
+			{
+				"type": "animation",
+				"start": 0,
+				"end": 11,
+				"time": 0.2
+			}
+		]
+	}
+}
