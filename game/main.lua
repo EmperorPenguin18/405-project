@@ -9,7 +9,7 @@ week_obj = nil
 week_val = 1
 equity_obj = nil
 equity_val = 100
-shares_val = 100
+shares_val = 10000
 share_price_obj = nil
 share_price_val = 1
 valuation_obj = nil
@@ -94,7 +94,7 @@ end
 
 local function acq_offer(e, instance, choice)
 	if choice == 1 then
-		local payout_obj = spawn(e, instance, "text.json", 270, 680, false)
+		local payout_obj = spawn(e, instance, "text.json", 160, 250, false)
 		local payout_val = (equity_val/100) * shares_val * share_price_val - debt_val
 		action(e, payout_obj, '"type": "text", "string": "Payout: $'..payout_val..'"')
 		return 8
@@ -110,8 +110,8 @@ local function research(e, instance, choice)
 			capital_val = capital_val - 50000
 			product_market_fit_val = product_market_fit_val + 5
 			if events[9][2] > 0 then events[9][2] = events[9][2] - 3 end
-			events[28][2] = events[28][2] + 1
-			events[29][2] = events[29][2] + 1
+			events[28][2] = events[28][2] + 2
+			events[29][2] = events[29][2] + 2
 		else
 			return 9
 		end
@@ -134,11 +134,8 @@ local function valuation(e, instance, choice)
 	if choice == 1 then
 		if capital_val >= 20000 then
 			capital_val = capital_val - 20000
-			if income_val*52 > capital_val then
-				valuation_val = math.random(capital_val, income_val*52)
-			else
-				valuation_val = capital_val
-			end
+			local avg = income_val*52*4
+			valuation_val = math.random(math.floor(avg/2), avg*2)
 		else
 			return 11
 		end
@@ -351,7 +348,7 @@ end
 local function quality_up(e, instance, choice)
 	if choice == 1 then
 		costs_val = costs_val + 200
-		product_market_fit_val = product_market_fit_val + 1
+		product_price_val = product_price_val + 10
 	elseif choice == 2 then
 		-- Nothing
 	end
@@ -360,14 +357,10 @@ end
 
 local function quality_down(e, instance, choice)
 	if choice == 1 then
-		if costs_val > 200 then
-			costs_val = costs_val - 200
-		else
-			costs_val = 0
+		if product_price_val > 0 then
+			product_price_val = product_price_val - 10
 		end
-		if product_market_fit_val > 0 then
-			product_market_fit_val = product_market_fit_val - 1
-		end
+		product_market_fit_val = product_market_fit_val + 1
 	elseif choice == 2 then
 		-- Nothing
 	end
@@ -392,7 +385,7 @@ local function hire0(e, instance, choice)
 				return 30
 			end
 		end
-		share_price_obj = spawn(e, instance, "text.json", 20, 700, false)
+		share_price_obj = spawn(e, instance, "text.json", 20, 140, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired0 = true
@@ -421,7 +414,7 @@ local function hire1(e, instance, choice)
 				return 31
 			end
 		end
-		market_share_obj = spawn(e, instance, "text.json", 560, 80, false)
+		market_share_obj = spawn(e, instance, "text.json", 530, 80, false)
 		capacity_val = capacity_val + 1
 		employees_val = employees_val + 1
 		hired1 = true
@@ -665,6 +658,7 @@ local function input_name(e, instance, choice)
 	if string.len(product_name) < 1 then return 40 end
 	action(e, input_obj, '"type": "move", "x": 200, "y": 680, "relative": false')
 	action(e, input_obj, '"type": "text", "string": "Name: '..product_name..'"')
+	update_enable = false
 	initial_state()
 	return 1
 end
@@ -678,7 +672,7 @@ events = {
 	{1, 0, tutorial2, "If you look to the top, you'll see three numbers. As you can see from the labels, these are your current capital, income and operating costs. You have some savings from your last job, so you start with $5000. Income is zero because you aren't selling anything yet. Costs is $100 because even founders have to eat. Each week, your income will be added to your capital, and costs subtracted. Other statistics about the business will be revealed later.", "", "1. Continue"},
 	{1, 0, tutorial3, "In real life lots of people just want a lifestyle business, but not you. Your goal is to exit the business either from acquisition or I.P.O. Your equity percentage is shown below capital, that will affect how much you exit with. Good luck!", "", "1. Let's go!"},
 	{2, 0, acq_offer, "You are getting a phone call.", "Hello, we represent Alphanumeric Inc. and would like to make an acquisition offer. We see how successful you have been in the widget market, and we think you are a great fit for us. We'll buy all your equity and run the business from now on. How does that sound?", "", "1. Retirement baby!", "2. No thanks"}, -- acquisition
-	{2, 0, failure, "Congratulations! You have successfully exited your venture. Now you can try to get an even bigger payout. Would you like to play again?", "", "1. Yes! The next one will be even better!", "2. No, I'd like to enjoy my retirement"}, -- victory
+	{2, 0, failure, "Congratulations! Your payout is:", "", "", "", "You have successfully exited your venture. Now you can try to get an even bigger payout. Would you like to play again?", "", "1. Yes! The next one will be even better!", "2. No, I'd like to enjoy my retirement"}, -- 8: victory
 	{2, 0, research, "A company that uses widgets has agreed to help you test drive your widget idea. This will help refine your product, but will cost you to create an M.V.P. Would you like to proceed?", "", "1. What a great opportunity! (-$50 000)", "2. Maybe next time"}, -- 9: research
 	{2, 0, new_customer, "A company that uses widgets has heard of your new product, and thinks it will improve their business. This will increase your income, but requires manufacturing capacity.", "", "1. We'll do great things together.", "2. Sorry, but not at this time"}, -- 10: new customer
 	{2, 0, valuation, "You have approached a business valuation firm to determine how much your company is worth. Knowing this is useful, but it will cost you a fee.", "", "1. Works for me. (-$20 000)", "2. I don't need it"}, -- 11: valuation
@@ -699,7 +693,7 @@ events = {
 	{2, 0, reduce_space, "You get the idea to cut costs by reducing the amount of office space you use up. You will have to spend less on equipment and rent, but your employees might not enjoy the work environment as much.", "", "1. Good idea, me", "2. Bad idea!"}, -- 26: reduce space
 	{2, 0, customer_feedback, "Now that you've done some initial market research, it might be beneficial to get some feedback from your customer base. You could survey them about what made them buy your product, how do they use it, and how could it be improved. It would cost some money to run the survey, but should give you an idea on how to improve your product.", "", "1. Feedback is useful. (-$100 000)", "2. I know what I'm doing"}, -- 27: customer feedback
 	{2, 0, quality_up, "After some research and development, it's been determined that using a different manufacturing process will lead to a better widget. However, this new process also costs more. Do you want to switch over?", "", "1. Of course!", "2. No way"}, -- 28: quality_up
-	{2, 0, quality_down, "To reduce the rising cost of manufacturing widgets, you could source your materials from a lower quality supplier. However, your customers may not appreciate the change. Do you want to switch over?", "", "1. Of course!", "2. No way"}, -- 29: quality_down
+	{2, 0, quality_down, "To make your product affordable to more people, you could source your materials from a lower quality supplier. However, you won't be able to charge as much. Do you want to switch over?", "", "1. Of course!", "2. No way"}, -- 29: quality_down
 	{4, 0, hire0, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Wojciech Mayo", "Role: Lawyer", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 30: hire 0
 	{4, 0, hire1, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Ronald Norman", "Role: Industry Specialist", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 31: hire 1
 	{4, 0, hire2, "After a few rounds of interviews, you have found someone who you think is a good fit for the company.", "Name: Azaan Higgins", "Role: CTO", "What compensation package do you offer them, if any?", "", "1. All salary", "2. Half and half. (-1% equity)", "3. All equity. (-2% equity)", "4. Don't hire"}, -- 32: hire 2
@@ -829,7 +823,7 @@ end
 function create_main(e, instance)
 	math.randomseed(os.time())
 	action(e, instance, '"type": "window", "w": 768, "h": 768')
-	action(e, instance, '"type": "music", "file": "music.ogg"')
+	--action(e, instance, '"type": "music", "file": "music.ogg"')
 	capital_obj = spawn(e, instance, "text.json", 270, 20, false)
 	income_obj = spawn(e, instance, "text.json", 560, 20, false)
 	costs_obj = spawn(e, instance, "text.json", 20, 20, false)
@@ -858,13 +852,13 @@ function next_week(e, instance)
 		if valuation_val > 1000000 then
 			events[7][2] = events[7][2] + 1
 		end
-		market_share_val = sales_val / (60 + sales_val)
+		market_share_val = (sales_val / (60 + sales_val)) * 100
 		if market_share_val > 33 then
 			events[7][2] = events[7][2] + 1
 		end
 		events[10][2] = product_market_fit_val
 		if sales_val > capacity_val then
-			happiness_val = happiness_val - 5
+			happiness_val = happiness_val - 1
 		end
 		events[11][2] = sales_val
 		if valuation_val > 10000000 then
@@ -879,7 +873,7 @@ function next_week(e, instance)
 			events[21][2] = 25 -- disruptive innovation
 		end
 		if sales_val >= capacity_val then -- manufacturing
-			events[22][2] = 50
+			events[22][2] = 25
 		else
 			events[22][2] = 0
 		end
@@ -906,7 +900,7 @@ function next_week(e, instance)
 		end
 
 		share_price_val = valuation_val / shares_val
-		happiness_val = happiness_val - employees_val + happiness_mod
+		happiness_val = happiness_val + happiness_mod
 		income_val = product_price_val * sales_val
 		capital_val = capital_val + income_val - costs_val
 		week_val = week_val + 1

@@ -90,3 +90,12 @@ playtest notes:
 [v] 779 nil
 [v] sum is a fraction
 [v] reaching max instances
+[v] difficult, happiness
+[v] share price position
+[x] audio broken
+[v] name disappears
+[v] share count
+[v] valuation too high
+[v] market share
+[v] reduce expansion chance
+[v] too slow, increase price + chance

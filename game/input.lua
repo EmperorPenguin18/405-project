@@ -1,8 +1,11 @@
 product_name = ""
 caps = false
+update_enable = true
 
 local function input_update(e, instance)
-	action(e, instance, '"type": "text", "string": "'..product_name..'"')
+	if update_enable == true then
+		action(e, instance, '"type": "text", "string": "'..product_name..'"')
+	end
 end
 
 local function newchar(lower, upper)
